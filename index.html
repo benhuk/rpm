@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <title>Rebuild persona machina</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery img.playing {
+            border: 3px solid #006eff;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <img src="images/nana.jpg" alt="Imagem 1" data-music="nana.mp3" data-message="maxarrao  com xaxixa">
+        <img src="images/mafra.jpg" alt="Imagem 2" data-music="mafra.mp3" data-message="Frase para Imagem 2">
+        <img src="images/iago.jpg" alt="Imagem 3" data-music="iago.mp3" data-message="Frase para Imagem 3">
+        <img src="images/nini.jpg" alt="Imagem 4" data-music="nini.mp3" data-message="ai vc complica a mamae">
+        <img src="images/nev.jpg" alt="Imagem 5" data-music="nev.mp3" data-message="nev na área">
+        <img src="images/vitao.jpg" alt="Imagem 6" data-music="vitao.mp3" data-message="eu odeio">
+    </div>
+
+    <audio id="audioPlayer"></audio>
+    <div id="message">so tem fanfarrao aqui</div>
+
+    <script>
+        const images = document.querySelectorAll('.gallery img');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const messageDiv = document.getElementById('message');
+
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                const musicSrc = image.getAttribute('data-music');
+                const message = image.getAttribute('data-message');
+
+                // Pausa a música atual se estiver tocando
+                if (!audioPlayer.paused) {
+                    audioPlayer.pause();
+                }
+
+                // Define a nova música e toca
+                audioPlayer.src = musicSrc;
+                audioPlayer.play();
+
+                // Exibe a frase correspondente
+                messageDiv.textContent = message;
+
+                // Remove a classe "playing" de todas as imagens
+                images.forEach(img => img.classList.remove('playing'));
+
+                // Adiciona a classe "playing" à imagem clicada
+                image.classList.add('playing');
+            });
+        });
+    </script>
+</body>
+</html>
