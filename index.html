@@ -69,7 +69,7 @@
 <body>
     <div class="gallery">
         <img src="images/nana.jpg" alt="Imagem 1" data-music="nana.mp3" data-message="maxarrao com xaxixa">
-        <img src="images/mafra.jpg" alt="Imagem 2" data-music="mafra.mp3" data-message="Frase para Imagem 2">
+        <img src="images/mafra.jpg" alt="Imagem 2" data-music="mafra.mp3" data-message="Never in the streets 'cause I never leave my home if you wanna live a dream I ain't comin' bitch I told you">
         <img src="images/iago.jpg" alt="Imagem 3" data-music="iago.mp3" data-message="e barato e da barato">
         <img src="images/nini.jpg" alt="Imagem 4" data-music="nini.mp3" data-message="ai vc complica a mamae">
         <img src="images/nev.jpg" alt="Imagem 5" data-music="nev.mp3" data-message="nev na área">
@@ -84,30 +84,47 @@
         const images = document.querySelectorAll('.gallery img');
         const audioPlayer = document.getElementById('audioPlayer');
         const messageDiv = document.getElementById('message');
-
+    
         images.forEach(image => {
-            image.addEventListener('click', () => {
+            image.addEventListener('click', (event) => {
                 const musicSrc = image.getAttribute('data-music');
                 const message = image.getAttribute('data-message');
-
+    
                 // Pausa a música atual se estiver tocando
                 if (!audioPlayer.paused) {
                     audioPlayer.pause();
                 }
-
+    
                 // Define a nova música e toca
                 audioPlayer.src = musicSrc;
                 audioPlayer.play();
-
+    
                 // Exibe a frase correspondente
                 messageDiv.textContent = message;
-
+    
                 // Remove a classe "playing" de todas as imagens
                 images.forEach(img => img.classList.remove('playing'));
-
+    
                 // Adiciona a classe "playing" à imagem clicada
                 image.classList.add('playing');
+    
+                // Impede que o clique na imagem seja capturado pelo listener no documento
+                event.stopPropagation();
             });
+        });
+    
+        // Adiciona um evento de clique no documento
+        document.addEventListener('click', () => {
+            // Pausa a música se estiver tocando
+            if (!audioPlayer.paused) {
+                audioPlayer.pause();
+            }
+    
+            // Limpa a mensagem
+            messageDiv.textContent = 'so tem fanfarrao aqui';
+    
+            // Remove a classe "playing" de todas as imagens
+            images.forEach(img => img.classList.remove('playing'));
         });
     </script>
 </body>
